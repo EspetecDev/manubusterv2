@@ -8,7 +8,7 @@ const testUsers = [
         uuid: process.env.TEST_1_UUID
     },
     {
-        email: process.env.TEST_2_PASSWORD,
+        email: process.env.TEST_2_EMAIL,
         password: process.env.TEST_2_PASSWORD,
         uuid: process.env.TEST_2_UUID
 }];

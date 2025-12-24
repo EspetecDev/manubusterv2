@@ -44,6 +44,7 @@ app.get('/api/me', requireAuth, (req, res) => {
 });
 
 app.use('/api/friends', friendRoute);
+app.use('/api/items', itemRoute);
 
 app.listen(PORT, () => {
     console.log(`\n 🟢 Server running on ${PORT}`);
