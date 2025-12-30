@@ -1,24 +1,37 @@
 <script setup>
-import { Rocket } from 'lucide-vue-next';
-import { Button } from '@/components/ui/button'
-import ThemeToggle from './components/ThemeToggle.vue';
+import { RouterLink, RouterView } from 'vue-router'
+import ThemeToggle from '@/components/ThemeToggle.vue'
 </script>
 
 <template>
-  <div class="min-h-screen bg-gray-50 text-gray-900 font-sans">
-    <main class="container mx-auto p-4">
-      <h1 class="text-2xl font-bold mb-4">Project Started</h1>
-      <p class="text-gray-600">Edit App.vue to begin.</p>
-      <Rocket class="w-6 h-6 text-blue-500" />
+  <div class="min-h-screen bg-background text-foreground font-sans">
+    <header class="border-b">
+      <div class="container mx-auto flex h-16 items-center justify-between px-4">
+        
+        <nav class="flex gap-6 items-center">
+          <span class="font-bold text-lg mr-4">MyApp</span>
+          <RouterLink 
+            to="/" 
+            class="text-sm font-medium transition-colors hover:text-primary"
+            active-class="text-primary font-bold"
+          >
+            Home
+          </RouterLink>
+          <RouterLink 
+            to="/about" 
+            class="text-sm font-medium transition-colors hover:text-primary"
+            active-class="text-primary font-bold"
+          >
+            About
+          </RouterLink>
+        </nav>
 
-
-      <div class="p-10 flex gap-4">
-        <Button>Default Button</Button>
-        <Button variant="destructive">Delete</Button>
-        <Button variant="outline">Cancel</Button>
+        <ThemeToggle />
       </div>
+    </header>
 
-      <ThemeToggle/>
+    <main class="container mx-auto py-8 px-4">
+      <RouterView />
     </main>
   </div>
 </template>
