@@ -1,11 +1,15 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import ThemeToggle from '@/components/ThemeToggle.vue'
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+
 </script>
 
 <template>
   <div class="min-h-screen bg-background text-foreground font-sans">
-    <header class="border-b">
+    <header v-if="!route.meta.hideNavbar" class="border-b">
       <div class="container mx-auto flex h-16 items-center justify-between px-4">
         
         <nav class="flex gap-6 items-center">
@@ -30,7 +34,7 @@ import ThemeToggle from '@/components/ThemeToggle.vue'
       </div>
     </header>
 
-    <main class="container mx-auto py-8 px-4">
+    <main :class="{ 'container mx-auto py-8 px-4': !route.meta.hideNavbar }">
       <RouterView />
     </main>
   </div>

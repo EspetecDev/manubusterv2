@@ -10,6 +10,7 @@
     "comp_install": "pnpm dlx shadcn-vue@latest"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.89.0",
     "@vueuse/core": "^14.1.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

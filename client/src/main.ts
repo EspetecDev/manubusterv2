@@ -1,3 +1,5 @@
+console.log('Env Variables:', import.meta.env)
+console.log('h')
 import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue';
