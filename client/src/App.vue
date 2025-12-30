@@ -1,6 +1,7 @@
 <script setup>
 import { Rocket } from 'lucide-vue-next';
 import { Button } from '@/components/ui/button'
+import ThemeToggle from './components/ThemeToggle.vue';
 </script>
 
 <template>
@@ -16,6 +17,8 @@ import { Button } from '@/components/ui/button'
         <Button variant="destructive">Delete</Button>
         <Button variant="outline">Cancel</Button>
       </div>
+
+      <ThemeToggle/>
     </main>
   </div>
 </template>
