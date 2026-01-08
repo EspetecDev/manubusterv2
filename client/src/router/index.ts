@@ -4,6 +4,7 @@ import AboutView from '@/views/AboutView.vue';
 import LoginView from '@/views/LoginView.vue';
 import { supabase } from '@/lib/supabase';
 import RegisterView from '@/views/RegisterView.vue';
+import ProfileView from '@/views/ProfileView.vue';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,10 +16,13 @@ const router = createRouter({
             path: '/about', name: 'about', component: AboutView
         },
         {
-            path: '/login', name: 'login', component: LoginView, meta: { hideNavbar: true}
+            path: '/login', name: 'login', component: LoginView, meta: { layout: 'auth'}
         },
         {
-            path: '/register', name: 'register', component: RegisterView, meta: { hideNavbar: true}
+            path: '/register', name: 'register', component: RegisterView, meta: { layout: 'auth'}
+        },
+        {
+            path: '/profile', name: 'profile', component: ProfileView
         },
     ]
 });
@@ -30,7 +34,7 @@ router.beforeEach(async (to, from, next) => {
 
     console.log(`Navigating to: ${next.name} | Logged in: ${isLoggedOn}`);
     console.log('session: ', data.session?.user);
-    if (isLoggedOn && to.name === 'login') {
+    if (isLoggedOn && (to.name === 'login' || to.name === 'register')) {
         return next({path: '/'});
     }
 
