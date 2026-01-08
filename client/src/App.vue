@@ -1,4 +1,6 @@
 <script setup>
+import 'vue-sonner/style.css'
+import { Toaster } from '@/components/ui/sonner'
 import { RouterLink, RouterView } from 'vue-router'
 import ThemeToggle from '@/components/ThemeToggle.vue'
 import { useRoute } from 'vue-router';
@@ -37,5 +39,6 @@ const route = useRoute();
     <main :class="{ 'container mx-auto py-8 px-4': !route.meta.hideNavbar }">
       <RouterView />
     </main>
+    <Toaster/>
   </div>
 </template>

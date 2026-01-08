@@ -34,7 +34,7 @@ router.beforeEach(async (to, from, next) => {
         return next({path: '/'});
     }
 
-    if (!isLoggedOn && to.name != 'login') {
+    if (!isLoggedOn && to.name != 'login' && to.name != 'register') {
         return next({path:'/login'});
     }
 

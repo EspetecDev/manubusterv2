@@ -13,9 +13,8 @@ CardDescription,
 CardContent,
 CardFooter,
 } from '@/components/ui/card'
-import { useToast } from '@/components/ui/toast/use-toast';
-import { supabase } from '@/lib/supabase';
 
+import { supabase } from '@/lib/supabase';
 const router = useRouter();
 const email = ref('');
 const password = ref('');
@@ -58,8 +57,8 @@ const handleGoogleLogin = async () => {
       </CardHeader>
       
       <CardContent class="grid gap-4">
-        <div v-if="errorMessage" class="text-red-500 text-sm text-center">
-          {{ errorMessage }}
+        <div v-if="errorMsg" class="text-red-500 text-sm text-center">
+          {{ errorMsg }}
         </div>
 
         <div class="grid gap-2">
@@ -94,7 +93,7 @@ const handleGoogleLogin = async () => {
       <CardFooter>
         <div class="text-sm text-center text-muted-foreground w-full">
           Don't have an account? 
-          <a href="#" class="text-primary hover:underline">Sign up</a>
+          <a href="/register" class="text-primary hover:underline">Sign up</a>
         </div>
       </CardFooter>
     </Card>
