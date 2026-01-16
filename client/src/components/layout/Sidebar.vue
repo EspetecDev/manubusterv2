@@ -1,6 +1,6 @@
 <script lang="ts">
 import { RouterLink } from 'vue-router';
-import { Home, Settings, User, LogOut } from 'lucide-vue-next';
+import { Home, Settings, User, LogOut, Users } from 'lucide-vue-next';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'vue-router';
 
@@ -28,6 +28,15 @@ const handleLogout = async () => {
         Dashboard
       </RouterLink>
       
+      <RouterLink 
+        to="/friends" 
+        class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
+        active-class="bg-accent text-accent-foreground"
+      >
+        <Users class="w-4 h-4" />
+        Friends
+      </RouterLink>
+
       <RouterLink 
         to="/profile" 
         class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
