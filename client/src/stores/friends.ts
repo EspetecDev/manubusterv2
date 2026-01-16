@@ -7,7 +7,8 @@ import { errorMessages } from "vue/compiler-sfc";
 export interface Profile {
     id: string,
     email: string,
-    username: string
+    username: string,
+    inviteStatus: string
 }
 
 export interface Friendship {
@@ -39,7 +40,7 @@ export const useFriendsStore = defineStore('friends', () => {
             const { data: friendshipsData, error: queryError } = await supabase
             .from('friendships')
             .select('id, user_id_1, user_id_2, status')
-            .or(`user_id_1.eq(${userId}, user_id_2.eq(${userId}`)
+            .or(`user_id_1.eq.${userId},user_id_2.eq.${userId}`)
             .eq('status', enums.DB_ENUM_FRIENDSHIP_STATUS_ACCEPTED);
 
             if (queryError) throw queryError;
@@ -71,6 +72,7 @@ export const useFriendsStore = defineStore('friends', () => {
 
         } catch(e: any) {
             error.value = e.message;
+            console.log(e.message);
         } finally {
             loading.value = false;
         }
@@ -100,13 +102,28 @@ export const useFriendsStore = defineStore('friends', () => {
         loading.value = true;
         error.value = null;
         try {
-            const {data, error: queryError} = await supabase
+            const userId = await _getUserId();
+            const {data: profileData, error: profileError} = await supabase
             .from('profiles')
             .select('id, email, username')
-            .eq('email', email)
+            .or(`email.ilike.%${email}%,username.ilike.%${email}%`)
+            .neq('id', userId)
+            .limit(10);
     
-            if (queryError) throw  queryError;
-            searchResults.value = data || [];
+            if (profileError) throw profileError;
+            const { data: friendshipsQuery, error: friendshipsError } = await supabase
+            .from('friendships')
+            .select('user_id_1, user_id_2, status')
+            .or(`user_id_1.eq.${userId},user_id_2.eq.${userId}`);
+
+            if (friendshipsError) throw friendshipsError;
+            searchResults.value = profileData.map(p => {
+                const inviteStatus = friendshipsQuery.find(f => f.user_id_1 === p.id || f.user_id_2 === p.id)?.status ?? 'NONE';
+                return {
+                    ...p,
+                    inviteStatus
+                }
+            });
         } catch(e: any) {
             error.value = e.message;
         } finally {
@@ -162,6 +179,8 @@ export const useFriendsStore = defineStore('friends', () => {
             .delete()
             .eq('id', friendshipId);
             if (deleteError) throw deleteError;
+            await fetchFriends();
+            await fetchFriendRequests();
         } catch(e: any) {
             error.value = e.message;
         } finally {

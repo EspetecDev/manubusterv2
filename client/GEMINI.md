@@ -100,38 +100,47 @@ The project's key scripts are defined in `package.json`.
 
 ---
 
-## Session Status (Last Updated: 2026-01-12)
+## Session Status (Last Updated: 2026-01-16)
 
-### Pending Todo List
+### Todo List
 
-1.  **[PENDING] Refactor `friends.ts` store**
-    *   **Context:** The current store has incorrect logic for fetching friends (assumes user is always one side of the relationship) and incorrect join logic for friend requests (fetches receiver profile instead of sender).
-    *   **Action:** Update `fetchFriends` to handle bidirectional relationships, update `fetchFriendRequests` to fetch sender profiles, and update `Friendship` interface to match DB columns.
+1.  **[DONE] Refactor `friends.ts` store**
+    *   **Context:** The store logic for fetching friends and handling requests has been corrected to handle bidirectional relationships and proper foreign keys.
 
-2.  **[PENDING] Implement `ProfileView.vue`**
-    *   **Action:** Display current user details (username, email).
+2.  **[DONE] Implement `ProfileView.vue`**
+    *   **Action:** Displays current user details (username, email) and includes a logout button.
 
-3.  **[PENDING] Create Friends Management UI**
-    *   **Action:** Create UI to list friends, search users, send requests, and accept/reject requests.
+3.  **[DONE] Create Friends Management UI**
+    *   **Action:** Created `FriendsView.vue` with tabs for 'Friends', 'Requests', and 'Search'. Implemented search, add, accept, reject, and remove logic.
 
-4.  **[PENDING] Create `items.ts` Pinia store**
-    *   **Action:** Define interfaces for Items (Games, Consoles) and implement CRUD actions.
+4.  **[DONE] Create `items.ts` Pinia store**
+    *   **Action:** Defined interfaces for Items and implemented CRUD actions (fetch, add, update, delete) and lending actions (lend, return).
 
-5.  **[PENDING] Create UI for Item Management**
-    *   **Action:** Dashboard/list view for library and add/edit forms.
+5.  **[DONE] Fix Pinia Initialization**
+    *   **Action:** Added `app.use(createPinia())` in `main.ts` to resolve "no active Pinia" error.
 
-6.  **[PENDING] Implement Lending/Loan logic**
-    *   **Action:** Mechanism to mark items as 'LENT' and track status.
+6.  **[PENDING] Create UI for Item Management**
+    *   **Action:** Implement `HomeView.vue` (or a dedicated Items view) to list the user's library, and provide forms/dialogs to add new items and edit existing ones.
+    *   **Requirements:** Need to install `select`, `dialog`, `dropdown-menu` from shadcn-vue.
 
-### Detailed Next Step: Refactor `friends.ts`
+7.  **[PENDING] Implement Lending/Loan logic UI**
+    *   **Action:** Create the UI mechanism to select a friend and mark an item as 'LENT'.
 
-**Objective:** Fix data structure and logic errors in `src/stores/friends.ts`.
+8.  **[CURRENT] Verify and Fix Friends Logic**
+    *   **Action:** Rigorously test the entire friends workflow (Search, Add, Accept, Reject, Remove) to ensure stability and correctness.
+
+### Detailed Next Step: Verify and Fix Friends Logic
+
+**Objective:** Ensure the Friends Management feature is bug-free and robust.
 
 **Specifics:**
-1.  **Update `Friendship` Interface:** Rename `user_1_id` -> `user_id_1` and `user_2_id` -> `user_id_2` to match Supabase DB.
-2.  **Refactor `fetchFriends()`:**
-    *   Fetch friendships where `user_id_1 == me` OR `user_id_2 == me`.
-    *   Manually calculate the "friend" ID (the one that isn't me).
-    *   Fetch those profiles in a second query and merge.
-3.  **Refactor `fetchFriendRequests()`:**
-    *   Ensure we fetch the **sender's** profile (using `friendships_user_id_1_fkey`) when querying for pending requests where I am `user_id_2`.
+1.  **Manual Verification:**
+    *   Create two user accounts (or use existing test accounts).
+    *   **Search:** Verify users can be found by username/email.
+    *   **Request:** Send a friend request from User A to User B.
+    *   **Pending:** Verify User B sees the request in the "Requests" tab.
+    *   **Accept:** User B accepts. Verify both users see each other in "Friends".
+    *   **Reject:** (Alternative flow) User B rejects. Verify request disappears.
+    *   **Remove:** Remove a friend. Verify they are removed from both lists.
+2.  **Code Review:** Check `friends.ts` and `FriendsView.vue` for edge cases (e.g., refreshing state after actions, handling errors).
+3.  **Refinement:** Fix any issues found during testing.
