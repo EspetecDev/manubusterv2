@@ -126,21 +126,23 @@ The project's key scripts are defined in `package.json`.
 7.  **[PENDING] Implement Lending/Loan logic UI**
     *   **Action:** Create the UI mechanism to select a friend and mark an item as 'LENT'.
 
-8.  **[CURRENT] Verify and Fix Friends Logic**
+8.  **[DONE] Verify and Fix Friends Logic**
     *   **Action:** Rigorously test the entire friends workflow (Search, Add, Accept, Reject, Remove) to ensure stability and correctness.
 
-### Detailed Next Step: Verify and Fix Friends Logic
+9.  **[CURRENT] Implement Advanced Items Store Logic**
+    *   **Action:** Update `items.ts` to handle fetching borrowed items, return actions for borrowers, and better lending validation.
+    *   **Subtasks:** `fetchBorrowedItems`, `returnBorrowedItem`, `lendItem` refinement.
 
-**Objective:** Ensure the Friends Management feature is bug-free and robust.
+10. **[PENDING] Build Item Management Dashboard**
+    *   **Action:** Create the main dashboard in `HomeView.vue` with tabs for "My Library" and "Borrowed Items".
+    *   **Features:** Add Item Dialog, Item List (Cards/Table), Edit/Delete actions, Lend/Return actions.
+
+### Detailed Next Step: Implement Advanced Items Store Logic
+
+**Objective:** Enhance `items.ts` to support the full lending lifecycle from both owner and borrower perspectives.
 
 **Specifics:**
-1.  **Manual Verification:**
-    *   Create two user accounts (or use existing test accounts).
-    *   **Search:** Verify users can be found by username/email.
-    *   **Request:** Send a friend request from User A to User B.
-    *   **Pending:** Verify User B sees the request in the "Requests" tab.
-    *   **Accept:** User B accepts. Verify both users see each other in "Friends".
-    *   **Reject:** (Alternative flow) User B rejects. Verify request disappears.
-    *   **Remove:** Remove a friend. Verify they are removed from both lists.
-2.  **Code Review:** Check `friends.ts` and `FriendsView.vue` for edge cases (e.g., refreshing state after actions, handling errors).
-3.  **Refinement:** Fix any issues found during testing.
+1.  **Fetch Borrowed Items:** Add `fetchBorrowedItems` to retrieve items where `lent_to` matches the current user.
+2.  **Refine Lending:** Update `lendItem` to potentially check friendship status (if not enforced by DB RLS) and ensure atomic updates.
+3.  **Borrower Actions:** Implement `returnBorrowedItem` for the borrower to mark an item as returned.
+4.  **Type Safety:** Review and enforce types using `enums` from `consts.ts`.

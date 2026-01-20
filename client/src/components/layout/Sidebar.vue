@@ -29,6 +29,15 @@ const handleLogout = async () => {
       </RouterLink>
       
       <RouterLink 
+        to="/inventory" 
+        class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
+        active-class="bg-accent text-accent-foreground"
+      >
+        <Users class="w-4 h-4" />
+        Inventory
+      </RouterLink>
+
+      <RouterLink 
         to="/friends" 
         class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
         active-class="bg-accent text-accent-foreground"
